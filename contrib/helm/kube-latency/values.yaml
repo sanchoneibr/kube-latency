@@ -23,7 +23,16 @@ resources:
 
 nodeSelector: {}
 
+tolerations: 
+  - effect: NoSchedule
+    key: prod
+    value: "app"
+  - effect: NoSchedule
+    key: prod
+    value: "elk"
+
 prometheus:
+  enabled: false
   kubeStateMetrics:
     enabled: false
   alertmanager:

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: reader-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: reader-kube-latency
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services", "pods","nodes"]
+  verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: reader-{{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: reader-{{ .Release.Name }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: reader-kube-latency
+  apiGroup: rbac.authorization.k8s.io
